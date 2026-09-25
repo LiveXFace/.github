@@ -1,68 +1,36 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="brand/logo-white.svg">
-    <img src="brand/logo.svg" alt="Idemity" width="260">
-  </picture>
+  <img src="https://avatars.githubusercontent.com/u/301216518?v=4" alt="LiveXFace logo" width="108" />
 </p>
+
+<h1 align="center">LiveXFace</h1>
 
 <p align="center">
-  <strong>Face recognition as an API.</strong><br>
-  Register a face, then verify, identify, and check liveness — over a simple HTTP API, in five languages, on our cloud or your own servers.
+  <strong>Face recognition and liveness through an API.</strong><br />
+  A proof of concept for integrating biometric checks into applications.
 </p>
 
----
+## What we're building
 
-## What Idemity does
+LiveXFace is an API-first project for face recognition and liveness detection. The goal is to keep application-facing APIs separate from model inference and face search, so each part can evolve without changing the way applications integrate.
 
-Idemity turns face recognition into a few API calls, so you can add it to a product without training models or running GPUs yourself.
+| Area | Focus |
+| --- | --- |
+| Face recognition | Match faces and search stored embeddings. |
+| Liveness | Assess whether a face capture comes from a live person. |
+| Integration | Expose these capabilities through clear API boundaries. |
 
-- **Verify (1:1)** — confirm a face matches a known person.
-- **Identify (1:N)** — search a collection and find who a face belongs to.
-- **Compare** — score how similar two faces are.
-- **Liveness** — tell a real person from a photo or screen replay.
-- **Attributes** — age, gender, head pose, emotion, glasses, and mask detection.
-- **Collections & batch** — organize enrolled faces per use case; register in bulk, synchronously or as async jobs.
+## Technical direction
 
-Every request is scoped to an API key, so keys map cleanly to environments and teams.
+The POC is being developed around the following components:
 
-## SDKs
+| Component | Technology |
+| --- | --- |
+| API | Go, Gin |
+| Inference | Python, Flask, InsightFace |
+| Face search and storage | PostgreSQL, pgvector |
+| Cache and messaging | Redis, NATS |
+| Routing | Traefik |
 
-Official, first-party clients — same API surface, idiomatic in each language:
+## Status
 
-| Language | Package | Repo |
-|---|---|---|
-| TypeScript / JavaScript | `idemity` (npm) | [idemity-js](https://github.com/idemity/idemity-js) |
-| Python | `idemity` (PyPI) | [idemity-python](https://github.com/idemity/idemity-python) |
-| Go | `github.com/idemity/idemity-go` | [idemity-go](https://github.com/idemity/idemity-go) |
-| Flutter / Dart | `idemity` (pub.dev) | [idemity-flutter](https://github.com/idemity/idemity-flutter) |
-| Laravel / PHP | `idemity/laravel-sdk` (Packagist) | [idemity-laravel](https://github.com/idemity/idemity-laravel) |
-
-## Quick look
-
-```ts
-import { Idemity } from 'idemity'
-import fs from 'node:fs'
-
-const idemity = new Idemity({ apiKey: 'idm_live_…' })
-
-// 1:N search — who is this?
-const { matches } = await idemity.faces.identify('col_employees', {
-  image: fs.readFileSync('./photo.jpg'),
-  top_k: 3,
-})
-
-for (const m of matches) {
-  console.log(`${m.externalId} — ${(m.confidence * 100).toFixed(1)}%`)
-}
-```
-
-## Run it where you need it
-
-- **Cloud** — hosted at `api.idemity.com`; start with a key, no infrastructure to manage.
-- **On-prem & air-gapped** — the same images run inside your network with a signed license, for teams that can't send faces to a third party.
-
----
-
-<p align="center">
-  <sub>Idemity · face recognition API · <a href="https://idemity.com">idemity.com</a></sub>
-</p>
+LiveXFace is in the POC stage. Interfaces, documentation, and repository structure may change as the product is validated. This README describes the project's direction; it is not a production-readiness or accuracy claim.
